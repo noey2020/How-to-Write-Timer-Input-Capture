@@ -89,7 +89,8 @@ void TIM4_Init(){
 
 void TIM4_IRQ_handler(void){
 		if(TIM4->SR & TIM_SR_CC1IF != 0){								// do if update flag is not 0 or not set
-				current_value = TIM4->CCR1;									// read CCR1 clears CC1IF interrupt flag
+				current_value = TIM4->CCR1;									/* read CCR1 clears CC1IF interrupt flag. If channel CC1 is configured as input:
+				CCR1 is the counter value transferred by the last input capture 1 event (IC1). The TIMx_CCR1 register is read-only and cannot be programmed. */
 				time_interval = current_value - old_value;	// if counting up
 				old_value = current_value;
 		}

@@ -53,7 +53,7 @@ void GPIO_Init_PortB(){
 		// Set output type as push-pull
 		GPIOB->OTYPER &= ~(1<<6);
 	
-		// Set pin 6 as alternative function 2 (TIM4)
+		// Set pin 6 as alternative function 2 (TIM4). Connects as input capture pin to TIM4 input capture to trigger
 		GPIOB->AFR[0] |= 0x2 << (4*6);
 	
 		// Set IO output speed
@@ -77,6 +77,7 @@ void TIM4_Init(){
 		TIM4->CCMR1	&= ~TIM_CCMR1_CC1S;			// 0b11(0x3): CC1 channel is configured as input, IC1 is mapped on TRC
 		TIM4->CCMR1	|= TIM_CCMR1_CC1S_0;		// Select bit 0
 		TIM4->CCMR1	&= ~TIM_CCMR1_IC1F;			// disable digital filter
+		/* From block diagram, edge detector trigger mode capture is selected by CCER. Trigger to start & stop capture */
 		TIM4->CCER	|= (1<<1 | 1<<3);				// CC1 channel configured as input. (11): noninverted/both rising and falling edges
 		TIM4->CCMR1	&= ~TIM_CCMR1_IC1PSC;		// program input capture 1 prescaler
 		TIM4->CCER	|= TIM_CCER_CC1E;				// Enable capture counter

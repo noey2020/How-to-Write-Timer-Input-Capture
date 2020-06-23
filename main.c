@@ -38,7 +38,6 @@
 volatile uint32_t current_value;
 volatile uint32_t time_interval;
 volatile uint32_t old_value;
-int value = 0;
 
 #endif	// Prevent the file from being included more than once.
 
@@ -87,7 +86,7 @@ void TIM4_Init(){
 		CC1 channel configured as input: CC1NP/CC1P bits select TI1FP1 and TI2FP1 polarity for trigger or capture operations.
 		0b11: so bits 1 and 3 are 0b1(0x1) noninverted/both edgespage 433 of rm0038 */
 		TIM4->CCER	|= (1<<1 | 1<<3);				// CC1 channel configured as input. (11): noninverted/both rising and falling edges
-		TIM4->CCMR1	&= ~TIM_CCMR1_IC1PSC;		// program input capture 1 prescaler
+		TIM4->CCMR1	&= ~TIM_CCMR1_IC1PSC;		// ~0xC = ~0b1100 = 0b0011. Bits 3:2 IC1PSC: Input capture 1 prescaler 00. no prescaler
 		TIM4->CCER	|= TIM_CCER_CC1E;				// Enable capture counter
 		TIM4->DIER  |= TIM_DIER_CC1IE;			// 0x2(0b10) for bit 1. Enable interrupt request for channel 1
 		TIM4->DIER  |= TIM_DIER_CC1DE;			// 0x200(0b1000000000) for bit 10. Enable DMA/Interrupt request for channel 1
